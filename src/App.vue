@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <Test></Test>
+    <Header></Header>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 
-import Test from './components/Test';
+import Header from './components/AppHeader';
 
 export default {
   name: 'app',
   components: {
-
-    Test
+    Header
   }
 }
 </script>
