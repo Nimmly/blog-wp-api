@@ -1,23 +1,20 @@
 <template>
-    <div>
-        <form  @submit="uploadPost" class="form-horizontal">
+    <div class="card">
+        <h1 class="card-body">Create a new Post</h1>
+        <form  @submit="addAll" class="form-horizontal">
             <div class="form-group">
-                <label for="title" class="control-label col-xs-4">Title</label>
-                <div class="col-xs-8">
+                <div class="card-body col-xs-8">
+                    <label>Title:</label>
                     <div class="input-group">
-                        <div class="input-group-addon">
-                            <i class="fa fa-address-card"></i>
-                        </div>
-                        <input v-model="newPost.title" id="title" name="title" type="text" class="form-control" required minlength="2">
+                        <input v-model="title" id="title" name="title" type="text" class="form-control" >
+                    </div>
+                    <label>Description:</label>
+                    <div class="input-group">
+                        <input v-model="body" id="body" name="body" type="text" class="form-control" >
                     </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-xs-offset-4 col-xs-8">
-                    <button name="submit" type="submit" class="btn btn-primary">Submit</button>
-                </div>
-                <div class="col-xs-offset-4 col-xs-8">
-                    <button name="reset" type="reset" class="btn btn-danger" >Reset</button>
+                <div class="card-body col-xs-offset-4 col-xs-8">
+                    <button name="submit" type="submit" class="btn btn-warning">Submit</button>
                 </div>
             </div>
         </form>
@@ -26,17 +23,43 @@
 
 
 <script>
-    import { mapActions, mapGetters } from 'vuex';
+
+    import { mapActions } from 'vuex';
 
     export default {
         name: 'UploadForm',
-        computed: mapGetters(['newPost']),
-        methods:mapActions(['uploadPost'])
+        data() {
+            return {
+                    title: '',
+                    body: ''
+                }
+            },
+        methods:{
+            ...mapActions(['addNewPost']),
+            onSubmit(e){
+                e.preventDefault();
+                this.addNewPost(this.title);
+
+            },
+            addAll(e){
+                e.preventDefault();
+                const newPost = {
+                    title: this.title,
+                    body: this.body
+                }
+                this.addNewPost(newPost);
+            }
+        }
+
+
     }
 </script>
 
 <style>
-    body:after{
-        background:white;
+   .card{
+       margin-bottom: 20px;
+   }
+    ul.row{
+        margin-left: -54px
     }
 </style>
