@@ -1,6 +1,6 @@
-import api from '../../api/wp';
-import { router } from '../../main';
-
+import api from '../../api/jsonplacehollder';
+import axios from 'axios';
+/*
 const state = {
     posts:[],
     newPost:[],
@@ -39,7 +39,62 @@ const mutations = {
 
     }
 
-}
+}*/
+
+const state = {
+    posts: [],
+    comments: [],
+    newPost:[]
+};
+
+const getters = {
+    posts: state => state.posts,
+    comments: state => state.comments,
+    newPost: state => state.newPost
+};
+
+
+const actions = {
+    async fetchPosts({ commit }){
+        const response = await api.fetchPosts();
+        commit('setPosts', response.data )
+    },
+    async addNewPost({ commit }, newPost ){
+        const {title, body} = newPost;
+        const response = await api.addPost(title, body);
+        commit('setPost', response.data);
+        console.log(response.data)
+    },
+    async deletePost({ commit }, id){
+        await api.deletePost(id);
+        commit("removePost", id);
+    },
+    async fetchComments({ commit }, id){
+        const response = await api.fetchComments(id);
+        commit('setComments', response.data);
+    },
+    async loadMore({ commit }){
+        const num = 10;
+        const response = await api.loadMore(num);
+        commit('setPosts', response.data);
+    }
+};
+
+const mutations = {
+    setPosts:(state,posts) => {
+        state.posts = posts;
+    },
+    setPost:(state,title,body) => {
+        state.posts.unshift({title,body})
+    },
+    removePost:(state, id) => {
+        state.posts = state.posts.filter(post => post.id !== id);
+    },
+    setComments:(state,comments) => {
+        state.comments = comments;
+    }
+
+};
 
 export default {
     state,

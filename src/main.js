@@ -3,7 +3,7 @@ import App from './App.vue'
 import store from './store';
 import VueRouter from 'vue-router';
 import Test from './components/Test';
-import UploadForm from "./components/UploadForm";
+import Comments from "./components/Comments";
 
 Vue.use(VueRouter);
 
@@ -11,7 +11,7 @@ export const router = new VueRouter({
   mode:'history',
   routes:[
     { path: '/', component: Test },
-    { path: '/add' , component: UploadForm }
+    { path: '/comments', component: Comments }
   ]
 })
 
